@@ -1,0 +1,33 @@
+{
+    // ICE9 JSON语法高亮文件
+    // 正则表达式来源Icey JSON Mini (@love-kogasa)
+    // 自己扩展了一些东西
+    name: ["ICE9 JSON", ".json", ".json5"]
+    comment: {startsWith: "//"}
+    comment: {startsWith: "/*", endsWith: "*/"}
+    styles: [
+        "key", #3655A7, #4F6EBE, @BI
+        "value", #15B593, #14D4AB
+        "string" > "value"
+        "number", #096C83, #0C8E94, @B
+        "error", #A40000, #DB0000, @SI
+        "truthy", #00B71B, #2ABB00
+        "falsy", #A40000, #DB0000
+        "default", #25386F, #A0ABFF
+    ]
+    contains: [
+        {match: /(\".*?\"\s*)(\:)/, 1: "key"}
+        {match: /(\".*?\"\s*)/, 0: "value"}
+        {match: /([a-zA-Z0-9]+?\s*)(\:)/, 1: "key"}
+        {match: /(\'.*?\'\s*)(\:)/, 1: "key"}
+        {match: /(\'.*?\'\s*)/, 0: "value"}
+        // 不用，会全部error{match: /(?!\s*".*?"\s*:\s*(?:".*?"|\d+|true|false|null)\s*,?\s*$).+/, 0: "error"}
+        {builtin: #JAVA_NUMBER#}
+        {builtin: #JAVA_ESCAPED_CHAR#}
+        {builtin: #QUOTED_STRING#}
+        {match: keywordsToRegex("false null NaN undefined"), 0: "falsy"}
+        {match: keywordsToRegex("true infinity"), 0: "truthy"}
+    ]
+    codeFormatter: #BUILT_IN_JSON_FORMATTER#
+    codeShrinker: #BUILT_IN_JSON_SHRINKER#
+}
